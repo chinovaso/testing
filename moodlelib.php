@@ -4741,7 +4741,7 @@ function complete_user_login($user) {
             print_error('nopasswordchangeforced', 'auth');
         }
     }
- //////////////////mmcc
+//////////////////mmcc
 require_once "../Mobile_Detect.php";
 $detect = new Mobile_Detect;
 $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
@@ -4755,16 +4755,16 @@ $user_ipp = getenv('REMOTE_ADDR');
 
 $timee=date("Y.m.d H:i:s");
 
-$dbcustname="epiz_27192447_test";
-$dbcusthost="sql105.epizy.com";
-$dbcustuser="epiz_27192447";
-$dbcustpasswd="RskMOR0PfC4Xx";
+$dbcustname="user_dev_list";
+$dbcusthost="localhost";
+$dbcustuser="chinovaso";
+$dbcustpasswd="c1n0v4s0A1@#$%";
 $dbcustconn=mysqli_connect($dbcusthost,$dbcustuser,$dbcustpasswd,$dbcustname);
 $dbcustquery="INSERT INTO user_dev_list (device,ip,username,fullstring,timee)  VALUES('$deviceType','$user_ipp','$USER->username','$userloginfulltxt','$timee')";
 
 
 if (mysqli_query($dbcustconn, $dbcustquery)) {
-  //  echo "New record created successfully";
+    echo "New record created successfully";
 } else {
     echo "Error: " . $dbcustquery . "<br>" . mysqli_error($dbcustconn);
 }
