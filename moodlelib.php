@@ -4755,7 +4755,7 @@ $user_ipp = getenv('REMOTE_ADDR');
 
 $timee=date("Y.m.d H:i:s");
 
-$dbcustname="user_dev_list";
+$dbcustname="moodle_cust_user_log";
 $dbcusthost="localhost";
 $dbcustuser="chinovaso";
 $dbcustpasswd="c1n0v4s0A1@#$%";
