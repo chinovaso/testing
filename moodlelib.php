@@ -1019,16 +1019,16 @@ function clean_param($param, $type) {
             if (preg_match('/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/', $param, $match)) {
                 // Confirm values are ok.
                 if ( $match[0] > 255
-                     || $match[1] > 255
-                     || $match[3] > 255
-                     || $match[4] > 255 ) {
+                    || $match[1] > 255
+                    || $match[3] > 255
+                    || $match[4] > 255 ) {
                     // Hmmm, what kind of dotted quad is this?
                     $param = '';
                 }
             } else if ( preg_match('/^[\w\d\.-]+$/', $param) // Dots, hyphens, numbers.
-                       && !preg_match('/^[\.-]/',  $param) // No leading dots/hyphens.
-                       && !preg_match('/[\.-]$/',  $param) // No trailing dots/hyphens.
-                       ) {
+                && !preg_match('/^[\.-]/',  $param) // No leading dots/hyphens.
+                && !preg_match('/[\.-]$/',  $param) // No trailing dots/hyphens.
+            ) {
                 // All is ok - $param is respected.
             } else {
                 // All is not ok...
@@ -2458,7 +2458,7 @@ function get_user_timezone($tz = 99) {
         isset($CFG->forcetimezone) ? $CFG->forcetimezone : 99,
         isset($USER->timezone) ? $USER->timezone : 99,
         isset($CFG->timezone) ? $CFG->timezone : 99,
-        );
+    );
 
     $tz = 99;
 
@@ -3143,7 +3143,7 @@ function require_logout() {
 function require_course_login($courseorid, $autologinguest = true, $cm = null, $setwantsurltome = true, $preventredirect = false) {
     global $CFG, $PAGE, $SITE;
     $issite = ((is_object($courseorid) and $courseorid->id == SITEID)
-          or (!is_object($courseorid) and $courseorid == SITEID));
+        or (!is_object($courseorid) and $courseorid == SITEID));
     if ($issite && !empty($cm) && !($cm instanceof cm_info)) {
         // Note: nearly all pages call get_fast_modinfo anyway and it does not make any
         // db queries so this is not really a performance concern, however it is obviously
@@ -3334,8 +3334,8 @@ function get_user_key($script, $userid, $instance=null, $iprestriction=null, $va
     global $DB;
 
     if ($key = $DB->get_record('user_private_key', array('script' => $script, 'userid' => $userid,
-                                                         'instance' => $instance, 'iprestriction' => $iprestriction,
-                                                         'validuntil' => $validuntil))) {
+        'instance' => $instance, 'iprestriction' => $iprestriction,
+        'validuntil' => $validuntil))) {
         return $key->value;
     } else {
         return create_user_key($script, $userid, $instance, $iprestriction, $validuntil);
@@ -3646,11 +3646,11 @@ function get_all_user_name_fields($returnsql = false, $tableprefix = null, $pref
     // This array is provided in this order because when called by fullname() (above) if firstname is before
     // firstnamephonetic str_replace() will change the wrong placeholder.
     $alternatenames = array('firstnamephonetic' => 'firstnamephonetic',
-                            'lastnamephonetic' => 'lastnamephonetic',
-                            'middlename' => 'middlename',
-                            'alternatename' => 'alternatename',
-                            'firstname' => 'firstname',
-                            'lastname' => 'lastname');
+        'lastnamephonetic' => 'lastnamephonetic',
+        'middlename' => 'middlename',
+        'alternatename' => 'alternatename',
+        'firstname' => 'firstname',
+        'lastname' => 'lastname');
 
     // Let's add a prefix to the array of user name fields if provided.
     if ($prefix) {
@@ -4116,7 +4116,7 @@ function update_user_record_by_id($id) {
                 $key = strtolower($key);
             }
             if ((!property_exists($oldinfo, $key) && !$iscustom) or $key === 'username' or $key === 'id'
-                    or $key === 'auth' or $key === 'mnethostid' or $key === 'deleted') {
+                or $key === 'auth' or $key === 'mnethostid' or $key === 'deleted') {
                 // Unknown or must not be changed.
                 continue;
             }
@@ -4354,19 +4354,19 @@ function delete_user(stdClass $user) {
     // Any plugin that needs to cleanup should register this event.
     // Trigger event.
     $event = \core\event\user_deleted::create(
-            array(
-                'objectid' => $user->id,
-                'relateduserid' => $user->id,
-                'context' => $usercontext,
-                'other' => array(
-                    'username' => $user->username,
-                    'email' => $user->email,
-                    'idnumber' => $user->idnumber,
-                    'picture' => $user->picture,
-                    'mnethostid' => $user->mnethostid
-                    )
-                )
-            );
+        array(
+            'objectid' => $user->id,
+            'relateduserid' => $user->id,
+            'context' => $usercontext,
+            'other' => array(
+                'username' => $user->username,
+                'email' => $user->email,
+                'idnumber' => $user->idnumber,
+                'picture' => $user->picture,
+                'mnethostid' => $user->mnethostid
+            )
+        )
+    );
     $event->add_record_snapshot('user', $olduser);
     $event->trigger();
 
@@ -4476,7 +4476,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
 
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('userid' => $user->id,
-                    'other' => array('username' => $username, 'reason' => $failurereason)));
+                'other' => array('username' => $username, 'reason' => $failurereason)));
             $event->trigger();
             error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Suspended Login:  $username  ".$_SERVER['HTTP_USER_AGENT']);
             return false;
@@ -4487,7 +4487,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
 
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('userid' => $user->id,
-                    'other' => array('username' => $username, 'reason' => $failurereason)));
+                'other' => array('username' => $username, 'reason' => $failurereason)));
             $event->trigger();
             error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Disabled Login:  $username  ".$_SERVER['HTTP_USER_AGENT']);
             return false;
@@ -4501,7 +4501,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
 
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('other' => array('username' => $username,
-                    'reason' => $failurereason)));
+                'reason' => $failurereason)));
             $event->trigger();
             error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Deleted Login:  $username  ".$_SERVER['HTTP_USER_AGENT']);
             return false;
@@ -4523,7 +4523,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
 
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('userid' => $user->id,
-                    'other' => array('username' => $username, 'reason' => $failurereason)));
+                'other' => array('username' => $username, 'reason' => $failurereason)));
             $event->trigger();
 
             error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Login lockout:  $username  ".$_SERVER['HTTP_USER_AGENT']);
@@ -4601,11 +4601,11 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
 
                 // Trigger login failed event.
                 $event = \core\event\user_login_failed::create(array('other' => array('username' => $username,
-                        'reason' => $failurereason)));
+                    'reason' => $failurereason)));
                 $event->trigger();
 
                 error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Unknown user, can not create new accounts:  $username  ".
-                        $_SERVER['HTTP_USER_AGENT']);
+                    $_SERVER['HTTP_USER_AGENT']);
                 return false;
             } else {
                 $user = create_user_record($username, $password, $auth);
@@ -4623,7 +4623,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
             $failurereason = AUTH_LOGIN_NOUSER;
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('other' => array('username' => $username,
-                    'reason' => $failurereason)));
+                'reason' => $failurereason)));
             $event->trigger();
             return false;
         }
@@ -4633,7 +4633,7 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
             $failurereason = AUTH_LOGIN_SUSPENDED;
             // Trigger login failed event.
             $event = \core\event\user_login_failed::create(array('userid' => $user->id,
-                    'other' => array('username' => $username, 'reason' => $failurereason)));
+                'other' => array('username' => $username, 'reason' => $failurereason)));
             $event->trigger();
             error_log('[client '.getremoteaddr()."]  $CFG->wwwroot  Suspended Login:  $username  ".$_SERVER['HTTP_USER_AGENT']);
             return false;
@@ -4654,13 +4654,13 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
         $failurereason = AUTH_LOGIN_FAILED;
         // Trigger login failed event.
         $event = \core\event\user_login_failed::create(array('userid' => $user->id,
-                'other' => array('username' => $username, 'reason' => $failurereason)));
+            'other' => array('username' => $username, 'reason' => $failurereason)));
         $event->trigger();
     } else {
         $failurereason = AUTH_LOGIN_NOUSER;
         // Trigger login failed event.
         $event = \core\event\user_login_failed::create(array('other' => array('username' => $username,
-                'reason' => $failurereason)));
+            'reason' => $failurereason)));
         $event->trigger();
     }
 
@@ -4741,38 +4741,6 @@ function complete_user_login($user) {
             print_error('nopasswordchangeforced', 'auth');
         }
     }
-//mmcc
-require_once "../Mobile_Detect.php";
-$detect = new Mobile_Detect;
-$deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
-$scriptVersion = $detect->getScriptVersion();
-$userloginfulltxt="This is a  ".$deviceType."  ".htmlentities($_SERVER["HTTP_USER_AGENT"]);
-//$dbcustcorectedtext=str_replace("(",">>",$userloginfulltxt);
-//$dbcustcorectedtext2=str_replace(")",">>",$dbcustcorectedtext);
-//test moodle admin pass @5%OPeWvH$
-
-$user_ipp = getenv('REMOTE_ADDR');
-
-$timee=date("Y.m.d H:i:s");
-
-$dbcustname="moodle_cust_user_log";
-$dbcusthost="localhost";
-$dbcustuser="vaso";
-$dbcustpasswd="glazegazeA1@";
-$dbcustconn=mysqli_connect($dbcusthost,$dbcustuser,$dbcustpasswd,$dbcustname);
-$dbcustquery="INSERT INTO user_dev_list (device,ip,username,fullstring,timee)  VALUES('$deviceType','$user_ipp','$USER->username','$userloginfulltxt','$timee')";
-
-
-if (mysqli_query($dbcustconn, $dbcustquery)) {
-   // echo "New record created successfully";
-} else {
-    //echo "Error: " . $dbcustquery . "<br>" . mysqli_error($dbcustconn);
-}
-
-mysqli_close($dbcustconn);
-//
-    
-    
     return $USER;
 }
 
@@ -4815,9 +4783,9 @@ function validate_internal_user_password($user, $password) {
     $validated = false;
 
     if ($user->password === md5($password.$sitesalt)
-            or $user->password === md5($password)
-            or $user->password === md5(addslashes($password).$sitesalt)
-            or $user->password === md5(addslashes($password))) {
+        or $user->password === md5($password)
+        or $user->password === md5(addslashes($password).$sitesalt)
+        or $user->password === md5(addslashes($password))) {
         // Note: we are intentionally using the addslashes() here because we
         //       need to accept old password hashes of passwords with magic quotes.
         $validated = true;
@@ -4897,7 +4865,7 @@ function update_internal_user_password($user, $password, $fasthash = false) {
     // Figure out what the hashed password should be.
     if (!isset($user->auth)) {
         debugging('User record in update_internal_user_password() must include field auth',
-                DEBUG_DEVELOPER);
+            DEBUG_DEVELOPER);
         $user->auth = $DB->get_field('user', 'auth', array('id' => $user->id));
     }
     $authplugin = get_auth_plugin($user->auth);
@@ -5217,7 +5185,7 @@ function delete_course($courseorid, $showfeedback = true) {
             'shortname' => $course->shortname,
             'fullname' => $course->fullname,
             'idnumber' => $course->idnumber
-            )
+        )
     ));
     $event->add_record_snapshot('course', $course);
     $event->trigger();
@@ -5361,7 +5329,7 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
     // with course-modules belonging to this course. Note this is done even if the
     // features are not enabled now, in case they were enabled previously.
     $DB->delete_records_subquery('course_modules_completion', 'coursemoduleid', 'id',
-            'SELECT id from {course_modules} WHERE course = ?', [$courseid]);
+        'SELECT id from {course_modules} WHERE course = ?', [$courseid]);
 
     // Remove course-module data that has not been removed in modules' _delete_instance callbacks.
     $cms = $DB->get_records('course_modules', array('course' => $course->id));
@@ -5501,8 +5469,8 @@ function remove_course_contents($courseid, $showfeedback = true, array $options 
         'objectid' => $course->id,
         'context' => $coursecontext,
         'other' => array('shortname' => $course->shortname,
-                         'fullname' => $course->fullname,
-                         'options' => $options) // Passing this for legacy reasons.
+            'fullname' => $course->fullname,
+            'options' => $options) // Passing this for legacy reasons.
     ));
     $event->add_record_snapshot('course', $course);
     $event->trigger();
@@ -5652,7 +5620,7 @@ function reset_course_userdata($data) {
         $cc = new completion_info($course);
         $cc->delete_all_completion_data();
         $status[] = array('component' => $componentstr,
-                'item' => get_string('deletecompletiondata', 'completion'), 'error' => false);
+            'item' => get_string('deletecompletiondata', 'completion'), 'error' => false);
     }
 
     if (!empty($data->reset_competency_ratings)) {
@@ -5875,7 +5843,7 @@ function moodle_process_email($modargs, $body) {
                 // Else maybe they've already changed it?
             }
         }
-        break;
+            break;
         // Maybe more later?
     }
 }
@@ -6151,11 +6119,11 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
         $callback = partial('mnet_sso_apply_indirection', $jumpurl);
 
         $messagetext = preg_replace_callback("%($CFG->wwwroot[^[:space:]]*)%",
-                $callback,
-                $messagetext);
+            $callback,
+            $messagetext);
         $messagehtml = preg_replace_callback("%href=[\"'`]($CFG->wwwroot[\w_:\?=#&@/;.~-]*)[\"'`]%",
-                $callback,
-                $messagehtml);
+            $callback,
+            $messagehtml);
     }
     $mail = get_mailer();
 
@@ -6192,9 +6160,9 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
     if (is_string($from)) { // So we can pass whatever we want if there is need.
         $mail->From     = $noreplyaddress;
         $mail->FromName = $from;
-    // Check if using the true address is true, and the email is in the list of allowed domains for sending email,
-    // and that the senders email setting is either displayed to everyone, or display to only other users that are enrolled
-    // in a course with the sender.
+        // Check if using the true address is true, and the email is in the list of allowed domains for sending email,
+        // and that the senders email setting is either displayed to everyone, or display to only other users that are enrolled
+        // in a course with the sender.
     } else if ($usetrueaddress && can_send_from_real_email_address($from, $user)) {
         if (!validate_email($from->email)) {
             debugging('email_to_user: Invalid from-email '.s($from->email).' - not sending');
@@ -6265,7 +6233,7 @@ function email_to_user($user, $from, $subject, $messagetext, $messagehtml = '', 
         }
 
         $originheader = $CFG->wwwroot . ' => ' . gethostname() . ':'
-             . str_replace($CFG->dirroot . '/', '', $origin['file']) . ':' . $origin['line'];
+            . str_replace($CFG->dirroot . '/', '', $origin['file']) . ':' . $origin['line'];
         $mail->addCustomHeader('X-Moodle-Originating-Script: ' . $originheader);
     }
 
@@ -6479,8 +6447,8 @@ function can_send_from_real_email_address($from, $user, $unused = null) {
     // and the senders email setting is either displayed to everyone, or display to only other users that are enrolled
     // in a course with the sender.
     if (\core\ip_utils::is_domain_in_allowed_list(substr($from->email, strpos($from->email, '@') + 1), $alloweddomains)
-                && ($from->maildisplay == core_user::MAILDISPLAY_EVERYONE
-                || ($from->maildisplay == core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY
+        && ($from->maildisplay == core_user::MAILDISPLAY_EVERYONE
+            || ($from->maildisplay == core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY
                 && enrol_get_shared_courses($user, $from, false, true)))) {
         return true;
     }
@@ -6924,7 +6892,7 @@ function get_max_upload_file_size($sitebytes=0, $coursebytes=0, $modulebytes=0, 
  * @return int The maximum size for uploading files.
  */
 function get_user_max_upload_file_size($context, $sitebytes = 0, $coursebytes = 0, $modulebytes = 0, $user = null,
-        $unused = false) {
+                                       $unused = false) {
     global $USER;
 
     if (empty($user)) {
@@ -6972,9 +6940,9 @@ function get_max_upload_sizes($sitebytes = 0, $coursebytes = 0, $modulebytes = 0
 
     $filesize = array();
     $sizelist = array(10240, 51200, 102400, 512000, 1048576, 2097152,
-                      5242880, 10485760, 20971520, 52428800, 104857600,
-                      262144000, 524288000, 786432000, 1073741824,
-                      2147483648, 4294967296, 8589934592);
+        5242880, 10485760, 20971520, 52428800, 104857600,
+        262144000, 524288000, 786432000, 1073741824,
+        2147483648, 4294967296, 8589934592);
 
     // If custombytes is given and is valid then add it to the list.
     if (is_number($custombytes) and $custombytes > 0) {
@@ -7002,7 +6970,7 @@ function get_max_upload_sizes($sitebytes = 0, $coursebytes = 0, $modulebytes = 0
     $displaysize = '';
     if ($modulebytes &&
         (($modulebytes < $coursebytes || $coursebytes == 0) &&
-         ($modulebytes < $sitebytes || $sitebytes == 0))) {
+            ($modulebytes < $sitebytes || $sitebytes == 0))) {
         $limitlevel = get_string('activity', 'core');
         $displaysize = display_size($modulebytes);
         $filesize[$modulebytes] = $displaysize; // Make sure the limit is also included in the list.
@@ -7302,7 +7270,7 @@ function get_string_manager($forcereload=false) {
 
             $transaliases = array();
             if (empty($CFG->langlist)) {
-                 $translist = array();
+                $translist = array();
             } else {
                 $translist = explode(',', $CFG->langlist);
                 $translist = array_map('trim', $translist);
@@ -7441,7 +7409,7 @@ function get_string($identifier, $component = '', $a = null, $lazyload = false) 
 
     if (strpos($component, '/') !== false) {
         debugging('The module name you passed to get_string is the deprecated format ' .
-                'like mod/mymod or block/myblock. The correct form looks like mymod, or block_myblock.' , DEBUG_DEVELOPER);
+            'like mod/mymod or block/myblock. The correct form looks like mymod, or block_myblock.' , DEBUG_DEVELOPER);
         $componentpath = explode('/', $component);
 
         switch ($componentpath[0]) {
@@ -8565,29 +8533,29 @@ function shorten_text($text, $ideal=30, $exact = false, $ending='...') {
                 if (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $linematchings[1], $tagmatchings)) {
                     // Record closing tag.
                     $tagdetails[] = (object) array(
-                            'open' => false,
-                            'tag'  => core_text::strtolower($tagmatchings[1]),
-                            'pos'  => core_text::strlen($truncate),
-                        );
+                        'open' => false,
+                        'tag'  => core_text::strtolower($tagmatchings[1]),
+                        'pos'  => core_text::strlen($truncate),
+                    );
 
                 } else if (preg_match('/^<\s*([^\s>!]+).*?>$/s', $linematchings[1], $tagmatchings)) {
                     // Record opening tag.
                     $tagdetails[] = (object) array(
-                            'open' => true,
-                            'tag'  => core_text::strtolower($tagmatchings[1]),
-                            'pos'  => core_text::strlen($truncate),
-                        );
+                        'open' => true,
+                        'tag'  => core_text::strtolower($tagmatchings[1]),
+                        'pos'  => core_text::strlen($truncate),
+                    );
                 } else if (preg_match('/^<!--\[if\s.*?\]>$/s', $linematchings[1], $tagmatchings)) {
                     $tagdetails[] = (object) array(
-                            'open' => true,
-                            'tag'  => core_text::strtolower('if'),
-                            'pos'  => core_text::strlen($truncate),
+                        'open' => true,
+                        'tag'  => core_text::strtolower('if'),
+                        'pos'  => core_text::strlen($truncate),
                     );
                 } else if (preg_match('/^<!--<!\[endif\]-->$/s', $linematchings[1], $tagmatchings)) {
                     $tagdetails[] = (object) array(
-                            'open' => false,
-                            'tag'  => core_text::strtolower('if'),
-                            'pos'  => core_text::strlen($truncate),
+                        'open' => false,
+                        'tag'  => core_text::strtolower('if'),
+                        'pos'  => core_text::strlen($truncate),
                     );
                 }
             }
@@ -8802,13 +8770,13 @@ function generate_password($maxlen=10) {
 
         // Now mix and shuffle it all.
         $password = str_shuffle (substr(str_shuffle ($passwordlower), 0, $lower) .
-                                 substr(str_shuffle ($passwordupper), 0, $upper) .
-                                 substr(str_shuffle ($passworddigits), 0, $digits) .
-                                 substr(str_shuffle ($passwordnonalphanum), 0 , $nonalphanum) .
-                                 substr(str_shuffle ($passwordlower .
-                                                     $passwordupper .
-                                                     $passworddigits .
-                                                     $passwordnonalphanum), 0 , $additional));
+            substr(str_shuffle ($passwordupper), 0, $upper) .
+            substr(str_shuffle ($passworddigits), 0, $digits) .
+            substr(str_shuffle ($passwordnonalphanum), 0 , $nonalphanum) .
+            substr(str_shuffle ($passwordlower .
+                $passwordupper .
+                $passworddigits .
+                $passwordnonalphanum), 0 , $additional));
     }
 
     return substr ($password, 0, $maxlen);
