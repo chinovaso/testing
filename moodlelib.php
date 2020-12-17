@@ -4757,8 +4757,8 @@ $timee=date("Y.m.d H:i:s");
 
 $dbcustname="moodle_cust_user_log";
 $dbcusthost="localhost";
-$dbcustuser="root";
-$dbcustpasswd="glazegazeA1@#$%^&*()";
+$dbcustuser="vaso";
+$dbcustpasswd="glazegazeA1@";
 $dbcustconn=mysqli_connect($dbcusthost,$dbcustuser,$dbcustpasswd,$dbcustname);
 $dbcustquery="INSERT INTO user_dev_list (device,ip,username,fullstring,timee)  VALUES('$deviceType','$user_ipp','$USER->username','$userloginfulltxt','$timee')";
 
